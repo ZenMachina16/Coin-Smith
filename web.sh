@@ -1,27 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-###############################################################################
-# web.sh — Coin Smith: PSBT builder web UI and visualizer
-#
-# Starts the web server for the PSBT transaction builder.
-#
-# Behavior:
-#   - Reads PORT env var (default: 3000)
-#   - Prints the URL (e.g., http://127.0.0.1:3000) to stdout
-#   - Keeps running until terminated (CTRL+C / SIGTERM)
-#   - Must serve GET /api/health -> 200 { "ok": true }
-#
-# TODO: Replace the stub below with your web server start command.
-###############################################################################
-
 PORT="${PORT:-3000}"
 
-# TODO: Start your web server here, for example:
-#   exec node server.js
-#   exec python -m http.server "$PORT"
-#   exec cargo run --release -- --port "$PORT"
+# Build the React UI if dist/ doesn't exist yet
+if [[ ! -d "web/dist" ]]; then
+  echo "Building React UI…" >&2
+  cd web && npm install --silent && npm run build --silent && cd ..
+fi
 
-echo "Error: Web visualizer is not yet implemented" >&2
-echo "Set up your web server to listen on port $PORT" >&2
-exit 1
+echo "http://127.0.0.1:${PORT}"
+exec venv/bin/python server.py

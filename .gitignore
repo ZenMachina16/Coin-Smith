@@ -1,5 +1,8 @@
+venv/
+web/node_modules/
+web/dist/
 out/
-node_modules/
 __pycache__/
-target/
-.env
+*.py[cod]
+.pytest_cache/
+*.egg-info/
