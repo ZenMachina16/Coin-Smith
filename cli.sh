@@ -47,5 +47,12 @@ mkdir -p out
 FIXTURE_NAME="$(basename "$FIXTURE")"
 OUTPUT_FILE="out/$FIXTURE_NAME"
 
-source venv/bin/activate
-python cli.py "$FIXTURE" "$OUTPUT_FILE"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PYTHON="$SCRIPT_DIR/venv/bin/python"
+
+if [[ ! -x "$PYTHON" ]]; then
+  echo "Error: venv not found. Run setup.sh first." >&2
+  exit 1
+fi
+
+"$PYTHON" "$SCRIPT_DIR/cli.py" "$FIXTURE" "$OUTPUT_FILE"
